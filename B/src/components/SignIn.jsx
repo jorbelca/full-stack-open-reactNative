@@ -22,23 +22,31 @@ const SignIn = () => {
       borderWidth: 1,
     },
   })
-  const validationSchema = yup.object().shape({})
+  const validationSchema = yup.object().shape({
+    username: yup.string().required("Username is required"),
+    password: yup.string().required("Password is required"),
+  })
   return (
     <>
       <ScrollView style={styles.form}>
         <Formik
           initialValues={initialValues}
-          onSubmit={onSubmit}
           validationSchema={validationSchema}
+          onSubmit={onSubmit}
         >
           <View>
-            <FormikInput placeholder="Name" name="name" />
+            <FormikInput placeholder="Username" name="username" />
             <FormikInput
               placeholder="Password"
               name="password"
               secureTextEntry={true}
             />
-            <Button style={styles.btn} color="#007AFF" title="Sign in"/>
+            <Button
+              style={styles.btn}
+              color="#007AFF"
+              title="Sign in"
+              onPress={(event) => onSubmit(event.target)}
+            />
           </View>
         </Formik>
       </ScrollView>

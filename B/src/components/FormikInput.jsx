@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
   errorText: {
     marginTop: 5,
     color: "#d73a4a",
-    borderColor: "#d73a4a",
-    borderWidth: 2,
+    borderColor: "transparent",
+
   },
   form: {
     marginTop: 20,
