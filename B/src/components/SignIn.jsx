@@ -4,7 +4,12 @@ import * as yup from "yup"
 import FormikInput from "./FormikInput"
 
 const SignIn = () => {
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
+    try {
+      await validationSchema.validate()
+    } catch (e) {
+      e
+    }
     console.log(values)
   }
   const initialValues = {
@@ -26,6 +31,7 @@ const SignIn = () => {
     username: yup.string().required("Username is required"),
     password: yup.string().required("Password is required"),
   })
+
   return (
     <>
       <ScrollView style={styles.form}>
