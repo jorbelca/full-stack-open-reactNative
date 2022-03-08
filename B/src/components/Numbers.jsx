@@ -4,9 +4,10 @@ import { StyleSheet, Text, View } from "react-native"
 const Numbers = ({ data }) => {
   const styles = StyleSheet.create({
     foot: {
-      flexDirection: "column",
+      flexDirection: "row",
       justifyContent: "space-evenly",
       marginTop: 20,
+      flexWrap: "wrap",
     },
   })
   function kConverter(num) {
@@ -16,19 +17,25 @@ const Numbers = ({ data }) => {
   }
   const stargazersCount = kConverter(data.stargazersCount)
   const forksCount = kConverter(data.forksCount)
+
   return (
     <View style={styles.foot}>
-      <View style={{ flex: 1 }}>
-        <Text>
-          {stargazersCount}
-          {forksCount}
-          {data.reviewCount}
-          {data.ratingAverage}
-        </Text>
+      <View style={{ flex: 1, alignItems: "center" }}>
+        <Text style={{ fontWeight: "bold" }}>{stargazersCount}</Text>
+        <Text>Stars </Text>
       </View>
 
-      <View style={{ flex: 1 }}>
-        <Text>Stars Forks Reviews Rating</Text>
+      <View style={{ flex: 1, alignItems: "center" }}>
+        <Text style={{ fontWeight: "bold" }}>{forksCount} </Text>
+        <Text> Forks </Text>
+      </View>
+      <View style={{ flex: 1, alignItems: "center" }}>
+        <Text style={{ fontWeight: "bold" }}>{data.reviewCount}</Text>
+        <Text>Reviews </Text>
+      </View>
+      <View style={{ flex: 1, alignItems: "center" }}>
+        <Text style={{ fontWeight: "bold" }}>{data.ratingAverage}</Text>
+        <Text>Rating</Text>
       </View>
     </View>
   )

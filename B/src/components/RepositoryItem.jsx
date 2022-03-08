@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from "react-native"
+import { Button, Image, Pressable, StyleSheet, Text, View } from "react-native"
 import Numbers from "./Numbers"
 
 const RepositoryItem = ({ data }) => {
@@ -14,10 +14,11 @@ const RepositoryItem = ({ data }) => {
     },
     top: {
       flex: 3,
-      justifyContent: "space-evenly",
+      flexDirection: "column",
+      alignItems: "flex-start",
+      justifyContent: "space-around",
       marginLeft: 20,
     },
-    
   })
   return (
     <View style={styles.container}>
@@ -25,7 +26,7 @@ const RepositoryItem = ({ data }) => {
         style={{
           flex: 1,
           flexDirection: "row",
-          justifyContent: "space-around",
+          justifyContent: "space-evenly",
         }}
       >
         <Image style={styles.logo} source={{ uri: `${data.ownerAvatarUrl}` }} />
@@ -33,16 +34,29 @@ const RepositoryItem = ({ data }) => {
           <Text style={{ fontWeight: "800" }}>{data.fullName}</Text>
           <Text> {data.description} </Text>
 
-          <Text
-            style={{
-              color: "#fff",
-              backgroundColor: "#0366d6",
-              borderRadius: 10,
-              width: "50%",
-            }}
-          >
-            {data.language}
-          </Text>
+          <View>
+            <Pressable
+              style={{
+                alignItems: "flex-start",
+                backgroundColor: "#0366d6",
+                color: "#fff",
+                borderRadius: 3,
+                padding: 3,
+                paddingLeft: 3,
+                width: "43%",
+              }}
+            >
+              <Text
+                style={{
+                  color: "#fff",
+                  justifyContent: "center",
+                  fontWeight: "400",
+                }}
+              >
+                {data.language}
+              </Text>
+            </Pressable>
+          </View>
         </View>
       </View>
 
