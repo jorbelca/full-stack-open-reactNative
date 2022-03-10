@@ -5,7 +5,7 @@ import theme from "../theme"
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Constants.statusBarHeight,
+    paddingTop: Constants.statusBarHeight + 10 ,
     backgroundColor: theme.colors.textPrimary,
     justifyContent: "space-evenly",
     display: "flex",
@@ -32,10 +32,18 @@ const AppBar = () => {
               <Text style={styles.text}>Repositories</Text>
             </Link>
           </View>
-
+        </Pressable>
+        <Pressable>
           <View style={styles.link}>
             <Link to="/">
               <Text style={styles.text}>Sign In</Text>
+            </Link>
+          </View>
+        </Pressable>
+        <Pressable>
+          <View style={styles.link}>
+            <Link to="register">
+              <Text style={styles.text}>Register</Text>
             </Link>
           </View>
         </Pressable>

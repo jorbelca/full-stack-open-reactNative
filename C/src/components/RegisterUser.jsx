@@ -1,21 +1,24 @@
 import { Formik } from "formik"
+
 import { View, Text, Pressable, StyleSheet, ScrollView } from "react-native"
 import * as yup from "yup"
-import useSignIn from "../hooks/useSignIn"
+import registerIn from "../hooks/useRegister"
+
 import FormikInput from "./FormikInput"
 
-const SignIn = () => {
-  const [signIn] = useSignIn()
+const RegisterUser = () => {
+  // const [register] = registerIn()
 
-  const onSubmit = async (values) => {
-    const { username, password } = values
-    try {
-      await signIn({ username, password })
-      //  validationSchema.validate()
-    } catch (e) {
-      console.error(e)
-    }
-  }
+  // const onSubmit = async (values) => {
+  //   const { username, password } = values
+  //   try {
+  //     const { data } = await register(username, password)
+
+  //     await validationSchema.validate()
+  //   } catch (e) {
+  //     e
+  //   }
+  // }
 
   const initialValues = {
     username: "",
@@ -30,7 +33,7 @@ const SignIn = () => {
     btn: {
       borderWidth: 1,
       flex: 1,
-      backgroundColor: "#007AFF",
+      backgroundColor: "green",
       borderRadius: 8,
       padding: 5,
       marginTop: 30,
@@ -70,7 +73,7 @@ const SignIn = () => {
                 type="submit"
               >
                 <View style={{ alignItems: "center", flex: 1 }}>
-                  <Text style={{ color: "white" }}>Sign In</Text>
+                  <Text style={{ color: "white" }}>Register User</Text>
                 </View>
               </Pressable>
             </View>
@@ -81,4 +84,4 @@ const SignIn = () => {
   )
 }
 
-export default SignIn
+export default RegisterUser
