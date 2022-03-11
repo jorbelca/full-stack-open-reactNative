@@ -12,10 +12,25 @@ export const LOGIN = gql`
   }
 `
 export const CREATE_USER = gql`
-  mutation createUser($username: String, $password: String) {
-    createUser(user: { username: $username, password: $password }) {
-      id
+  mutation ($user: CreateUserInput) {
+    createUser(user: $user) {
       username
+      id
     }
   }
 `
+
+export const CREATE_REVIEW = gql`
+  mutation ($review: CreateReviewInput) {
+    createReview(review: $review) {
+      id
+    }
+  }
+`
+
+// mutation ($username: String, $password: String) {
+//   createUser(user: { username: $username, password: $password }) {
+//     id
+//     username
+//   }
+// }

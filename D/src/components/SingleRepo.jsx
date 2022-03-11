@@ -4,7 +4,7 @@ import { useParams } from "react-router-native"
 import { SINGLE_REPO } from "../graphQL/queries"
 import RepositoryItem from "./RepositoryItem"
 import * as Linking from "expo-linking"
-import { format, compareAsc } from "date-fns"
+import { format } from "date-fns"
 
 const SingleRepo = () => {
   const { id } = useParams((n) => n.id)
@@ -12,7 +12,7 @@ const SingleRepo = () => {
   const { data } = useQuery(
     SINGLE_REPO,
     { variables: { id } },
-    { fetchPolicy: "cache-first" }
+    { fetchPolicy: "cache-and-network" }
   )
 
   return (
@@ -56,12 +56,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#ccc",
   },
   reviewsContainer: {
-    margin: 15,
+    margin: 10,
     display: "flex",
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "nowrap",
   },
   reviewsRating: {
     flex: 1,
-    color: "blue",
+    width: 1,
+    height: 70,
+    justifyContent: "center",
+    borderRadius: 50,
+    backgroundColor: "blue",
+    color: "#fff",
+    display: "flex",
+    alignItems: "center",
+    textAlign: "center",
   },
   reviewsText: {
     flex: 3,
@@ -77,7 +88,7 @@ const renderItem = ({ item }) => {
       </View>
       <View style={styles.reviewsText}>
         <Text style={{ fontWeight: "bold" }}>{item.user.username}</Text>
-        <Text>{date}</Text>
+        <Text style={{ marginBottom: 10 }}>{date}</Text>
         <Text>{item.text}</Text>
       </View>
     </View>

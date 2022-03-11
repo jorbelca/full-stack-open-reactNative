@@ -92,7 +92,7 @@ const AppBar = () => {
         <Pressable>
           <View style={styles.link}>
             <Link to="create">
-              <Text style={styles.text}>Create</Text>
+              <Text style={styles.text}>Create a review</Text>
             </Link>
           </View>
         </Pressable>

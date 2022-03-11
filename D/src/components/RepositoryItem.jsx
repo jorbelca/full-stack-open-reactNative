@@ -25,6 +25,7 @@ const RepositoryItem = ({ data }) => {
   const handleSingle = (id) => {
     navigate(`/${id}`)
   }
+
   return (
     <Pressable onPress={() => handleSingle(data.id)}>
       <View style={styles.container}>
@@ -40,34 +41,38 @@ const RepositoryItem = ({ data }) => {
             style={styles.logo}
             source={{ uri: `${data.ownerAvatarUrl}` }}
           />
-          <View style={styles.top}>
-            <Text style={{ fontWeight: "800" }}>{data.fullName}</Text>
-            <Text> {data.description} </Text>
+          {data ? (
+            <View style={styles.top}>
+              <Text style={{ fontWeight: "800" }}>{data.fullName}</Text>
+              <Text> {data.description} </Text>
 
-            <View>
-              <Pressable
-                style={{
-                  alignItems: "flex-start",
-                  backgroundColor: "#0366d6",
-                  color: "#fff",
-                  borderRadius: 3,
-                  padding: 3,
-                  paddingLeft: 3,
-                  width: "43%",
-                }}
-              >
-                <Text
+              <View>
+                <Pressable
                   style={{
+                    alignItems: "flex-start",
+                    backgroundColor: "#0366d6",
                     color: "#fff",
-                    justifyContent: "center",
-                    fontWeight: "400",
+                    borderRadius: 3,
+                    padding: 3,
+                    paddingLeft: 3,
+                    width: "43%",
                   }}
                 >
-                  {data.language}
-                </Text>
-              </Pressable>
+                  <Text
+                    style={{
+                      color: "#fff",
+                      justifyContent: "center",
+                      fontWeight: "400",
+                    }}
+                  >
+                    {data.language}
+                  </Text>
+                </Pressable>
+              </View>
             </View>
-          </View>
+          ) : (
+            <Text></Text>
+          )}
         </View>
 
         <Numbers data={data} />

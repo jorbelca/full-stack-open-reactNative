@@ -5,18 +5,16 @@ import * as yup from "yup"
 import FormikInput from "./FormikInput"
 
 const CreateReview = () => {
-  // const [register] = registerIn()
+  const onSubmit = async (values) => {
+    const { ownerName, repositoryName, rating, review } = values
+    try {
+      const { data } = await create(ownerName, repositoryName, rating, review)
 
-  // const onSubmit = async (values) => {
-  //   const { username, password } = values
-  //   try {
-  //     const { data } = await register(username, password)
-
-  //     await validationSchema.validate()
-  //   } catch (e) {
-  //     e
-  //   }
-  // }
+      await validationSchema.validate()
+    } catch (e) {
+      e
+    }
+  }
 
   const initialValues = {
     ownerName: "",
@@ -40,8 +38,9 @@ const CreateReview = () => {
     },
   })
   const validationSchema = yup.object().shape({
-    username: yup.string().required("Username is required"),
-    password: yup.string().required("Password is required"),
+    ownerName: yup.string().required("Repository owner name is required"),
+    repositoryName: yup.string().required("Repository name is required"),
+    rating: yup.number().required("Rating is required"),
   })
 
   return (
@@ -57,26 +56,27 @@ const CreateReview = () => {
               <FormikInput
                 placeholder="Repository owner name"
                 name="ownerName"
-                onChangeText={props.handleChange("username")}
+                onChangeText={props.handleChange("ownerName")}
                 value={props.values.username}
               />
               <FormikInput
                 placeholder="Repository Name"
                 name="repositoryName"
-                onChangeText={props.handleChange("password")}
+                onChangeText={props.handleChange("repositoryName")}
                 value={props.values.password}
               />
               <FormikInput
-                placeholder="Rating"
+                placeholder="Rating betwen 0 and 100"
                 name="rating"
-                onChangeText={props.handleChange("password")}
+                onChangeText={props.handleChange("rating")}
                 value={props.values.password}
               />
               <FormikInput
                 placeholder="Review"
                 name="review"
-                onChangeText={props.handleChange("password")}
+                onChangeText={props.handleChange("review")}
                 value={props.values.password}
+                multiline={true}
               />
               <Pressable
                 style={styles.btn}

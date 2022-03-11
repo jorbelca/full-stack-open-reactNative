@@ -7,18 +7,17 @@ import registerIn from "../hooks/useRegister"
 import FormikInput from "./FormikInput"
 
 const RegisterUser = () => {
-  // const [register] = registerIn()
+  const [register] = registerIn()
 
-  // const onSubmit = async (values) => {
-  //   const { username, password } = values
-  //   try {
-  //     const { data } = await register(username, password)
+  const onSubmit = async (values) => {
+    const { username, password } = values
 
-  //     await validationSchema.validate()
-  //   } catch (e) {
-  //     e
-  //   }
-  // }
+    try {
+      await register(username, password)
+    } catch (e) {
+      e
+    }
+  }
 
   const initialValues = {
     username: "",
@@ -40,8 +39,22 @@ const RegisterUser = () => {
     },
   })
   const validationSchema = yup.object().shape({
-    username: yup.string().required("Username is required"),
-    password: yup.string().required("Password is required"),
+    username: yup
+      .string()
+      .min(1, "must be at least 1 characters long")
+      .max(30, "must be at maximum 30 characters long")
+      .required("Username is required"),
+    password: yup
+      .string()
+      .min(5, "must be at least 5 characters long")
+      .max(50, "must be at maximum 50 characters long")
+      .required("Password is required"),
+    passwordConfirmation: yup
+      .string()
+      .test("passwords-match", "Passwords must match", function (value) {
+        return this.parent.password === value
+      })
+      .required("Password Confirmation is required"),
   })
 
   return (
@@ -66,6 +79,13 @@ const RegisterUser = () => {
                 secureTextEntry={true}
                 onChangeText={props.handleChange("password")}
                 value={props.values.password}
+              />
+              <FormikInput
+                placeholder="Password Confirmation"
+                name="passwordConfirmation"
+                secureTextEntry={true}
+                onChangeText={props.handleChange("passwordConfirmation")}
+                value={props.values.passwordConfirmation}
               />
               <Pressable
                 style={styles.btn}
