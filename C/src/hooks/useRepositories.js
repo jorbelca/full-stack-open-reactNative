@@ -6,9 +6,7 @@ const useRepositories = () => {
   const [repositories, setRepositories] = useState()
   const [loading, setLoading] = useState(false)
 
-  const { data, error } = useQuery(GET_REPOSITORIES, {
-    fetchPolicy: "cache-and-network",
-  })
+  const { data, error } = useQuery(GET_REPOSITORIES)
 
   const fetchRepositories = async () => {
     setLoading(true)
