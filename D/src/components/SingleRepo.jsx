@@ -35,7 +35,7 @@ const SingleRepo = () => {
 
 export default SingleRepo
 
-const ReviewItem = ({ data }) => {
+export const ReviewItem = ({ data }) => {
   const reviews = data ? data.edges.map((element) => element.node) : []
 
   return (

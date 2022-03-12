@@ -5,7 +5,7 @@ import { relayStylePagination } from "@apollo/client/utilities"
 
 const { apolloUri } = Constants.manifest.extra
 
-const httpLink = createHttpLink({ uri: apolloUri })
+const httpLink = createHttpLink({ uri: apolloUri, credentials: "same-origin" })
 
 const cache = new InMemoryCache({
   typePolicies: {
@@ -26,10 +26,11 @@ const createApolloClient = (authStorage) => {
   const authlink = setContext(async (_, { headers }) => {
     try {
       const accessToken = await authStorage.getAccessToken()
+
       return {
         headers: {
           ...headers,
-          authorizations: accessToken ? `Bearer ${accessToken}` : "",
+          Authorization: accessToken ? `Bearer ${accessToken}` : "",
         },
       }
     } catch (error) {

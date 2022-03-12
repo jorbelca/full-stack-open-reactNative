@@ -22,10 +22,28 @@ export const GET_REPOSITORIES = gql`
 `
 
 export const ME = gql`
-  query {
+  query getCurrentUser($includeReviews: Boolean = false) {
     me {
-      id
       username
+      id
+      reviews @include(if: $includeReviews) {
+        edges {
+          node {
+            id
+            text
+            rating
+            createdAt
+            user {
+              id
+              username
+            }
+          }
+          cursor
+        }
+        pageInfo {
+          hasNextPage
+        }
+      }
     }
   }
 `
@@ -69,6 +87,27 @@ export const FIND_REPO = gql`
         node {
           fullName
         }
+      }
+    }
+  }
+`
+
+export const INFINITE_SCROLL = gql`
+  query ($first: Int, $after: String) {
+    repositories(first: $first, after: $after) {
+      totalCount
+      edges {
+        node {
+          id
+          fullName
+          createdAt
+        }
+        cursor
+      }
+      pageInfo {
+        endCursor
+        startCursor
+        hasNextPage
       }
     }
   }

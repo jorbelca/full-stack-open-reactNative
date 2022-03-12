@@ -96,6 +96,14 @@ const AppBar = () => {
             </Link>
           </View>
         </Pressable>
+
+        <Pressable>
+          <View style={styles.link}>
+            <Link to="reviews">
+              <Text style={styles.text}>My reviews</Text>
+            </Link>
+          </View>
+        </Pressable>
       </ScrollView>
     </View>
   )

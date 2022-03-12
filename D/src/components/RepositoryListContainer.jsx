@@ -4,9 +4,14 @@ import { Picker } from "@react-native-picker/picker"
 import { useState } from "react"
 import { useLazyQuery } from "@apollo/client"
 import { GET_REPOSITORIES } from "../graphQL/queries"
+import * as React from "react"
+import { Searchbar } from "react-native-paper"
 
 export const RepositoryListContainer = ({ repositories }) => {
-  const [repo, setRepo] = useState([])
+  // const [repo, setRepo] = useState([])
+  const [searchQuery, setSearchQuery] = React.useState("")
+
+  const onChangeSearch = (query) => setSearchQuery(query)
   const handlePicker = (value) => {
     if (value == "ASC") {
       variable = {
@@ -27,12 +32,17 @@ export const RepositoryListContainer = ({ repositories }) => {
       variables: variable,
     })
 
-    setRepo(data)
+    // setRepo(data)
     return (
       <>
-        <View style={styles.search}>
-          <TextInput placeholder="Search"></TextInput>
-        </View>
+        <RenderInput onChangeText={onChangeSearch} value={searchQuery} />
+        {/* <TextInput
+          style={styles.search}
+          placeholder="Search"
+          onChangeText={onChangeSearch}
+          value={searchQuery}
+        /> */}
+
         <View style={styles.pickerStyle}>
           <Picker
             style={styles.pickerStyle}
@@ -51,7 +61,6 @@ export const RepositoryListContainer = ({ repositories }) => {
     )
   }
 
-  console.log(repo)
   // const repositoryNod = repo
   //   ? repo.repository.edges.map((element) => element.node)
   //   : []
@@ -63,7 +72,7 @@ export const RepositoryListContainer = ({ repositories }) => {
   const renderItem = ({ item }) => {
     return <RepositoryItem data={item} key={item.id} />
   }
-  // console.log(repositoryNod)
+
   return (
     <>
       {repositoryNodes ? (
@@ -102,8 +111,20 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginRight: 15,
     marginBottom: -40,
+    padding: 15,
     borderWidth: 1,
     borderRadius: 10,
-    padding: 5,
   },
 })
+
+export class RenderInput extends React.Component {
+  render() {
+    return (
+      <TextInput
+        style={styles.search}
+        placeholder="Search"
+        component={this.renderComp}
+      />
+    )
+  }
+}
