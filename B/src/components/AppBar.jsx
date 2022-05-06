@@ -32,7 +32,8 @@ const AppBar = () => {
               <Text style={styles.text}>Repositories</Text>
             </Link>
           </View>
-
+        </Pressable>
+        <Pressable>
           <View style={styles.link}>
             <Link to="/">
               <Text style={styles.text}>Sign In</Text>
