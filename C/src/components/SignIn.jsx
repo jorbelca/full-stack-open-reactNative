@@ -10,8 +10,10 @@ const SignIn = () => {
   const onSubmit = async (values) => {
     const { username, password } = values
     try {
-      await signIn({ username, password })
-      //  validationSchema.validate()
+      const { data } = await signIn({ username, password })
+      if (data.authenticate.accessToken) {
+        navigate("/")
+      }
     } catch (e) {
       console.error(e)
     }

@@ -4,8 +4,9 @@ import { Link } from "react-router-native"
 import theme from "../theme"
 import { useApolloClient, useQuery } from "@apollo/client"
 import { ME } from "../graphQL/queries"
-import useAuthStorage from "../hooks/useAuthStorage"
-import { useState } from "react"
+
+import AuthStorageContext from "../contexts/AuthStorageContext"
+import { useContext } from "react"
 
 const styles = StyleSheet.create({
   container: {
@@ -21,28 +22,26 @@ const styles = StyleSheet.create({
     margin: 10,
     fontWeight: "bold",
   },
+  tab: {
+    padding: 10,
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "white",
+    textAlign: "left",
+  },
 })
 
 const AppBar = () => {
-  const [user, setUser] = useState(null)
-
   const apolloClient = useApolloClient()
-  const authStorage = useAuthStorage()
+  const authStorage = useContext(AuthStorageContext)
 
-  // const token = async () => await authStorage.getAccessToken()
-  // console.log(token)
-
-  const { data } = useQuery(ME, {})
-  if (data)
-    if (data.me !== null) {
-      setUser(1)
-    }
+  const { loading, data } = useQuery(ME)
 
   const handleLogout = async () => {
     try {
-      console.log("logout")
       await authStorage.removeAccessToken()
       apolloClient.resetStore()
+      navigate("/")
     } catch (e) {
       console.error(e)
     }
@@ -53,34 +52,37 @@ const AppBar = () => {
         horizontal={true}
         style={{ flexDirection: "row", display: "flex" }}
       >
-        <Pressable
-          onPress={() => {
-            handleLogout
-          }}
-        >
+        <Pressable>
           <View style={styles.link}>
             <Link to="repo">
               <Text style={styles.text}>Repositories</Text>
             </Link>
           </View>
         </Pressable>
-        {user == null ? (
-          <Pressable>
-            <View style={styles.link}>
-              <Link to="/">
-                <Text style={styles.text}>Sign In</Text>
-              </Link>
-            </View>
-          </Pressable>
+
+        {!loading && data.me !== null ? (
+          <>
+            <Link to="/reviews/create">
+              <Text style={styles.tab}>Create a review</Text>
+            </Link>
+            <Link to="/reviews">
+              <Text style={styles.tab}>My reviews</Text>
+            </Link>
+            <Text onClick={() => handleLogout()} style={styles.tab}>
+              Sign Out
+            </Text>
+          </>
         ) : (
-          <Pressable onPress={() => console.log("sss")}>
-            <View style={styles.link}>
-              <Link to="/">
-                <Text style={styles.text}>Sign Out</Text>
-              </Link>
-            </View>
-          </Pressable>
+          <>
+            <Link to="/login">
+              <Text style={styles.tab}>Sign In</Text>
+            </Link>
+            <Link to="/users/create">
+              <Text style={styles.tab}>Sign Up</Text>
+            </Link>
+          </>
         )}
+
         <Pressable>
           <View style={styles.link}>
             <Link to="register">
