@@ -1,10 +1,10 @@
-import { View, StyleSheet, Pressable, Text, ScrollView } from "react-native"
+import { View, StyleSheet, ScrollView } from "react-native"
 import Constants from "expo-constants"
 import { Link } from "react-router-native"
 import theme from "../theme"
 import { useApolloClient, useQuery } from "@apollo/client"
 import { ME } from "../graphQL/queries"
-
+import Text from "./Text"
 import AuthStorageContext from "../contexts/AuthStorageContext"
 import { useContext } from "react"
 
@@ -37,9 +37,9 @@ const AppBar = () => {
 
   const { loading, data } = useQuery(ME)
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     try {
-      await authStorage.removeAccessToken()
+      authStorage.removeAccessToken()
       apolloClient.resetStore()
       navigate("/")
     } catch (e) {
@@ -52,22 +52,12 @@ const AppBar = () => {
         horizontal={true}
         style={{ flexDirection: "row", display: "flex" }}
       >
-        <Pressable>
-          <View style={styles.link}>
-            <Link to="repo">
-              <Text style={styles.text}>Repositories</Text>
-            </Link>
-          </View>
-        </Pressable>
+        <Link to="/">
+          <Text style={styles.tab}>Repositories</Text>
+        </Link>
 
         {!loading && data.me !== null ? (
           <>
-            <Link to="/reviews/create">
-              <Text style={styles.tab}>Create a review</Text>
-            </Link>
-            <Link to="/reviews">
-              <Text style={styles.tab}>My reviews</Text>
-            </Link>
             <Text onClick={() => handleLogout()} style={styles.tab}>
               Sign Out
             </Text>
@@ -82,14 +72,6 @@ const AppBar = () => {
             </Link>
           </>
         )}
-
-        <Pressable>
-          <View style={styles.link}>
-            <Link to="register">
-              <Text style={styles.text}>Register</Text>
-            </Link>
-          </View>
-        </Pressable>
       </ScrollView>
     </View>
   )

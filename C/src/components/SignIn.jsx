@@ -44,42 +44,16 @@ const SignIn = () => {
   })
 
   return (
-    <>
-      <ScrollView style={styles.form}>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={(values) => onSubmit(values)}
-        >
-          {(props) => (
-            <View>
-              <FormikInput
-                placeholder="Username"
-                name="username"
-                onChangeText={props.handleChange("username")}
-                value={props.values.username}
-              />
-              <FormikInput
-                placeholder="Password"
-                name="password"
-                secureTextEntry={true}
-                onChangeText={props.handleChange("password")}
-                value={props.values.password}
-              />
-              <Pressable
-                style={styles.btn}
-                onPress={props.handleSubmit}
-                type="submit"
-              >
-                <View style={{ alignItems: "center", flex: 1 }}>
-                  <Text style={{ color: "white" }}>Sign In</Text>
-                </View>
-              </Pressable>
-            </View>
-          )}
-        </Formik>
-      </ScrollView>
-    </>
+    <View>
+      <Formik
+        validationSchema={validationSchema}
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+      >
+        {({ handleSubmit }) => 
+        <SignInForm onSubmit={handleSubmit} />}
+      </Formik>
+    </View>
   )
 }
 
