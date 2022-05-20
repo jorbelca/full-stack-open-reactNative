@@ -1,17 +1,23 @@
 import { Formik } from "formik"
-import { View, Text, Pressable, StyleSheet, ScrollView } from "react-native"
+import { View, StyleSheet } from "react-native"
+import { useNavigate } from "react-router-native"
 import * as yup from "yup"
 import useSignIn from "../hooks/useSignIn"
-import FormikInput from "./FormikInput"
+
+import SignInForm from "./SignInForm"
 
 const SignIn = () => {
   const [signIn] = useSignIn()
+  const navigate = useNavigate()
 
   const onSubmit = async (values) => {
     const { username, password } = values
-    try {
-      await signIn({ username, password })
 
+    try {
+      const { data } = await signIn({ username, password })
+      if (data.authenticate.accessToken) {
+        navigate("/")
+      }
     } catch (e) {
       console.error(e)
     }
@@ -42,42 +48,15 @@ const SignIn = () => {
   })
 
   return (
-    <>
-      <ScrollView style={styles.form}>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={(values) => onSubmit(values)}
-        >
-          {(props) => (
-            <View>
-              <FormikInput
-                placeholder="Username"
-                name="username"
-                onChangeText={props.handleChange("username")}
-                value={props.values.username}
-              />
-              <FormikInput
-                placeholder="Password"
-                name="password"
-                secureTextEntry={true}
-                onChangeText={props.handleChange("password")}
-                value={props.values.password}
-              />
-              <Pressable
-                style={styles.btn}
-                onPress={props.handleSubmit}
-                type="submit"
-              >
-                <View style={{ alignItems: "center", flex: 1 }}>
-                  <Text style={{ color: "white" }}>Sign In</Text>
-                </View>
-              </Pressable>
-            </View>
-          )}
-        </Formik>
-      </ScrollView>
-    </>
+    <View>
+      <Formik
+        validationSchema={validationSchema}
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+      >
+        {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
+      </Formik>
+    </View>
   )
 }
 

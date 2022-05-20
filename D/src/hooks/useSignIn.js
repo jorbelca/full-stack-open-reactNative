@@ -1,8 +1,8 @@
 import { useApolloClient, useMutation } from "@apollo/client"
+import { useContext } from "react"
 import { useNavigate } from "react-router-native"
+import AuthStorageContext from "../contexts/AuthStorageContext"
 import { LOGIN } from "../graphQL/mutations"
-
-import useAuthStorage from "./useAuthStorage"
 
 const useSignIn = () => {
   const [mutate, result] = useMutation(LOGIN, {
@@ -10,19 +10,20 @@ const useSignIn = () => {
       console.error(error)
     },
   })
-  const authStorage = useAuthStorage()
-  const navigate = useNavigate()
+  const authStorage = useContext(AuthStorageContext)
+
   const apolloClient = useApolloClient()
 
   const signIn = async ({ username, password }) => {
-    const res = await mutate({ variables: { username, password } })
-    const token = res.data.authenticate.accessToken
+    const res = await mutate({
+      variables: { credentials: { username, password } },
+    })
 
-    // const setToken = new AuthStorage("token")
-    await authStorage.setAccessToken(token)
+    await authStorage.setAccessToken(res.data.authenticate.accessToken)
 
     apolloClient.resetStore()
-    navigate("repo")
+
+    return res
   }
 
   return [signIn, result]

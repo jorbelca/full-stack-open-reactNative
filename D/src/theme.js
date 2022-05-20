@@ -6,6 +6,7 @@ const theme = {
     textSecondary: "#586069",
     primary: "#0366d6",
     alert: "#d73a4a",
+    textWhite: "#ffffff",
   },
   fontSizes: {
     body: 14,
@@ -16,7 +17,7 @@ const theme = {
     normal: "400",
     bold: "700",
   },
-  ...Platform.select({
+  fonts: Platform.select({
     android: {
       fontFamily: "Roboto",
     },

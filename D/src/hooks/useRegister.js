@@ -4,22 +4,16 @@ import { CREATE_USER } from "../graphQL/mutations"
 const registerIn = () => {
   const [createUser, { data }] = useMutation(CREATE_USER, {
     onError: (error) => {
-      console.error(error.graphQLErrors[0].message)
+      console.error(error)
     },
   })
 
   const register = async (username, password) => {
-    console.log(username, password)
-    const res = await createUser({
-      variables: {
-        user: { username, password },
-      },
+    createUser({
+      createUserUser: { username: username, password: password },
     })
-
-    const { id } = res.data.createUser
-    console.log(id)
   }
-
+  console.log(data)
   return [register, data]
 }
 

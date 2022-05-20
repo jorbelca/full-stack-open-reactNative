@@ -1,14 +1,13 @@
 import { StyleSheet, View } from "react-native"
-import { Route, Routes } from "react-router-native"
+import { Navigate, Route, Routes } from "react-router-native"
 import AppBar from "./AppBar"
-import CreateReview from "./CreateReview"
 import RegisterUser from "./RegisterUser"
+
 import RepositoryList from "./RepositoryList"
 import SignIn from "./SignIn"
-import SingleRepo from "./SingleRepo"
-import MyReviews from "./MyReviews"
-
-
+import RepositoryPage from "./RespositoryPage"
+import CreateReview from "./CreateReview"
+import UserReviews from "./UserReviews"
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
@@ -21,12 +20,17 @@ const Main = () => {
     <View style={styles.container}>
       <AppBar />
       <Routes>
-        <Route path="repo" element={<RepositoryList />} />
-        <Route path="/" element={<SignIn />} />
-        <Route path="register" element={<RegisterUser />} />
-        <Route path="/:id" element={<SingleRepo />} />
-        <Route path="create" element={<CreateReview />} />
-        <Route path="reviews" element={<MyReviews />} />
+        <Route
+          path="/repository/:repositoryId"
+          element={<RepositoryPage />}
+          exact
+        />
+        {<Route path="/reviews/create" element={<CreateReview />} exact />}
+        {<Route path="/reviews" element={<UserReviews />} exact />}
+        <Route path="/users/create" element={<RegisterUser />} exact />
+        <Route path="/login" element={<SignIn />} exact />
+        <Route path="/" element={<RepositoryList />} exact />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </View>
   )
